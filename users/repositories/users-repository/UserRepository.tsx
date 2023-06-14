@@ -53,9 +53,9 @@ export const modifyUserById = async (id: number, user: UserModel) => {
       (error, results) => {
         if (error) {
           console.log("Erreur:", error);
-          reject(error);
+          reject({ message: "User not modified", status: 404 });
         } else {
-          resolve(results);
+          resolve({ message: "User modified", status: 200 });
         }
       }
     );
@@ -67,9 +67,9 @@ export const removeUserById = async (id: number) => {
     db.query("DELETE FROM users WHERE id = ?", [id], (error, results) => {
       if (error) {
         console.log("Erreur:", error);
-        reject(error);
+        reject({ message: "User not removed", status: 200 });
       } else {
-        resolve(results);
+        resolve({ message: "User removed", status: 200 });
       }
     });
   });

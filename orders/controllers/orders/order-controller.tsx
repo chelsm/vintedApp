@@ -20,8 +20,8 @@ router.get("/:id", async function (req, res, next) {
 });
 
 router.post("/", async function (req, res, next) {
-  createNewOrder(req.body);
-  res.send("order created");
+  const orders = await createNewOrder(req.body);
+  res.send(orders);
 });
 
 router.put("/:id", async function (req, res, next) {
