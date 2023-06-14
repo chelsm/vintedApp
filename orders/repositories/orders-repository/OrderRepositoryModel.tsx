@@ -3,6 +3,13 @@ export default interface OrderModel {
     user_sender: number;
     user_receiver: number;
     product_id: number;
-    // price: number;
+    price: number;
+}
+
+export default interface OrderModelGet {
+    id: number;
+    user_sender: number;
+    user_receiver: number;
+    product_id: number;
 }
 
