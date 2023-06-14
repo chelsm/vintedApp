@@ -1,5 +1,6 @@
 import db from "../../config/index";
-import UserModel from "./OrderRepositoryModel";
+import OrderModel from "./OrderRepositoryModel";
+import axios from "axios";
 
 export const getAllOrders = async () => {
   return new Promise((resolve, reject) => {
@@ -27,32 +28,31 @@ export const getOrderById = async (id: number) => {
   });
 };
 
-export const createOrder = async (order: UserModel) => {
-  // const product =
-  //   fetch(`http://localhost:3001/prducts/`)
-  //   // .then((response) => response.json())
-  //   .then((data) => {return data})
-  //   .catch((error) => console.log(error));
-
-  // console.log('product', product);
-
+export const createOrder = async (order: OrderModel) => {
+  const priceDev = await getDeliveryPrice(order.product_id);
   return new Promise((resolve, reject) => {
-    db.query("INSERT INTO orders SET ?", [order], (error, results) => {
-      if (error) {
-        console.log("Erreur:", error);
-        reject(error);
-      } else {
-        resolve(results);
+    db.query(
+      "INSERT INTO orders SET ?",
+      [{ ...order, price: priceDev }],
+      (error, results) => {
+        if (error) {
+          console.log("Erreur:", error);
+          reject(error);
+        } else {
+          console.log("results", results);
+          resolve(results);
+        }
       }
-    });
+    );
   });
 };
 
-export const modifyOrderById = async (id: number, order: UserModel) => {
+export const modifyOrderById = async (id: number, order: OrderModel) => {
+  const priceDev = await getDeliveryPrice(order.product_id);
   return new Promise((resolve, reject) => {
     db.query(
       "UPDATE orders SET ? WHERE id = ?",
-      [order, id],
+      [{ ...order, price: priceDev }, id],
       (error, results) => {
         if (error) {
           console.log("Erreur:", error);
@@ -76,4 +76,18 @@ export const removeOrderById = async (id: number) => {
       }
     });
   });
+};
+
+const getDeliveryPrice = async (id: number) => {
+  const priceDev = 2;
+  const product = await axios
+    .get(`http://localhost:3001/products/${id}`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error;
+    });
+  const totalPrice = priceDev + product[0].price;
+  return totalPrice;
 };
