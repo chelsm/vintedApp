@@ -1,16 +1,19 @@
+import axios from "axios";
 import db from "../../config/index";
 import ProductModel from "./ProductRepositoryModel";
 
 export const getAllProducts = async () => {
-  const id = 1;
-  const products = await fetch(`http://localhost:3000/users/${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => console.log(error));
 
-  console.log(products, "hello");
+  /*const id = 1;
+  axios.get(`http://localhost:3000/users/${id}`)
+  .then(function (response) {
+    // handle success
+    console.log(response.data, "response");
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  });*/
 
   return new Promise((resolve, reject) => {
     db.query("SELECT * FROM products", (error, results) => {
