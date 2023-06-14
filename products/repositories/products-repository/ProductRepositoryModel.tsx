@@ -1,6 +1,6 @@
 let db = require ('../../config')
 
-export interface ProductModel {
+export default interface ProductModel {
     id: number;
     name: string;
     price: number;
@@ -11,5 +11,3 @@ const productSchema = new db.Schema({
     name: String,
     price: Number
 });
-
-export default productSchema;

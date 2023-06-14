@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', indexRouter)
 app.use('/products', productsRouter)
 app.use('/products/:id', productsRouter)
-const port = 3000;
+const port = 3001;
 
 app.listen(port, () => {
   console.log(`Le serveur écoute sur le port ${port}`);
